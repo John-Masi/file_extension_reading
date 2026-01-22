@@ -11,16 +11,6 @@ uint32_t u8_to_u32(uint8_t b0,uint8_t b1,uint8_t b2, uint8_t b3) {
 
 }
 
-std::string to_string(const unsigned char str[]) {
-	std::string s;
-	s.resize(4);
-
-	for(int i = 0; i < s.size(); i++){
-		s[i] = str[i];
-	}
-	return s;
-}
-
 struct IHDR_DAT {
 	uint32_t width;
 	uint32_t height;
@@ -58,6 +48,7 @@ IHDR_DAT convert(std::vector<uint8_t> buffer) {
 		//p_len[1] = buffer[j+1];
 		//p_len[2] = buffer[j+2];
 		//p_len[3] = buffer[j+3];
+		
 		uint32_t len = u8_to_u32(buffer[j],buffer[j+1],buffer[j+2],buffer[j+3]);
 		auto len_2 = [](uint8_t ptr[]) -> uint32_t {
 			 return (uint32_t(ptr[0])<< 24) | uint32_t(ptr[1]) << 16 | uint32_t(ptr[2]) << 8 | ptr[3];
@@ -107,7 +98,6 @@ int main(){
 	std::vector<uint8_t> buff(size);
 
 	// reinterpret_cast will let us read the file as vector of chars instead 
-	// Because std::ifstream wants a char* we use reinterpret cast 
 	file.read(reinterpret_cast<char*>(buff.data()),size);
 
 	//IHDR_DAT d = convert(buff);
