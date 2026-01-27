@@ -6,6 +6,11 @@ enum EXTEN {
 	PCAP,
 };
 
+uint32_t to_u32(uint32_t b0,uint8_t b1,uint8_t b2, uint8_t b3) {
+	return b0 | (uint32_t(b1) >> 24) | uint32_t(b3) >> 16 | (uint32_t(b2) >> 8); 
+
+}
+
 std::vector<uint8_t> read_file(const std::string& _fname) {
 
 	std::ifstream file(_fname, std::ios::binary);
@@ -33,9 +38,10 @@ auto parse_file(std::vector<uint8_t>&& buffer) {
 }
 
 int main() {
-	auto buf = read_file("img.png");
+	auto buf = read_file("1MB.png");
 	auto f = parse_file(std::move(buf));
-	printf("%u",f.value().data().height);
+	std::cout << f.value();	
+
 
 	
 

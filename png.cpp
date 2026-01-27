@@ -1,8 +1,10 @@
 #include "png.hpp" 
+#include "general_funcs.h"
 #include <optional> 
 #include <vector> 
 #include <cstdint> 
 #include <algorithm>
+#include <utility>
 
 std::optional<PNG> PNG::parse_png(const std::vector<uint8_t>&& buffer){
 	std::size_t j = 0;
@@ -10,8 +12,19 @@ std::optional<PNG> PNG::parse_png(const std::vector<uint8_t>&& buffer){
 
 	PNGData data;
 
+
 	while(j + 8 < buffer.size()) {
-		uint32_t len;
+		uint32_t len = to_u32(buffer[j],buffer[j+1],buffer[j+2],buffer[j+3]);
+
+		if(_validIHDR(buffer)) {
+			data.width = to_u32(buffer[j+16],buffer[j+17],buffer[j+18],buffer[j+19]);
+			data.height = to_u32(buffer[j+20],buffer[j+21],buffer[j+22],buffer[j+23]);
+			data.color = buffer[j+17];
+		
+		}
+		if(j + 12 + len > buffer.size()){
+			break;
+		}
 
 		j = j + 12 + len;
 
@@ -23,16 +36,3 @@ std::optional<PNG> PNG::parse_png(const std::vector<uint8_t>&& buffer){
 
 
 
-
-bool _validPNG(const std::vector<uint8_t>&& buffer){
-	const uint8_t p[8] = {0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A};
-	return true;
-}
-
-bool _validIHDR(const std::vector<uint8_t>&buffer){
-
-	const uint8_t h[8] = {0x49,0x48,0x44,0x52};
-	
-
-	return true;
-}
