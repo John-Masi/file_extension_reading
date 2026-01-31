@@ -1,10 +1,6 @@
-#include "png.hpp"
+#include "file.hpp"
+#include "general_funcs.h"
 #include <iostream>
-
-enum EXTEN {
-	NILL, // Signals wrong file type
-	PCAP,
-};
 
 std::vector<uint8_t> read_file(const std::string& _fname) {
 
@@ -21,22 +17,12 @@ std::vector<uint8_t> read_file(const std::string& _fname) {
 
 	return buffer;
 }
- 
-auto parse_file(std::vector<uint8_t>&& buffer) {
-	// Return enum for matching magic bytes
-	
-
-
-	auto file = PNG::parse_png(std::move(buffer));
-
-	return file;
-}
 
 int main() {
-	auto buf = read_file("img.png");
-	auto f = parse_file(std::move(buf));
-	printf("%u",f.value().data().height);
 
-	
+	File& f = File::getFile();
+	auto buf = read_file("img.png");
+	f.mbyte_validation(buf);
+	f.do_parsing(buf);
 
 }
