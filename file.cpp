@@ -35,20 +35,33 @@ void File::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
 	uint32_t len = to_u32l(_b[b_size + 4],_b[b_size + 5],_b[b_size + 6],_b[b_size + 7]);
 	uint32_t b_type = to_u32l(_b[b_size],_b[b_size + 1],_b[b_size + 2],_b[b_size + 3]);
 
+	// EPB packet from pcapng  
 	if(b_type == 0x00000006) {
-		std::size_t offset = b_size + 8;
+	
+		// EPB start 
+		std::size_t offset = b_size + 28;
 		std::size_t body_len = len - 12;
+			
+		if(body_len < 14) return;	
+		std::size_t ip = offset + 14;
 
-		if(body_len >= 14 + 20 + 20) {
-			std::size_t tcp = offset + 14 + 20;
-			uint8_t tcp_flags = _b[tcp + 13];
-			bool syn = tcp_flags & 0x02;
-			bool ack = tcp_flags & 0x10;
+		if(body_len < 14 + 20) return;
+		uint8_t ihl = _b[ip] & 0x0F;
+		std::size_t ip_len = ihl * 4;
 
-			bool syn_ack = tcp_flags & 0x12;
+		if(body_len < 14 + ip_len) return;
 
-			std::cout << "Syn: " << syn << "Ack: " << ack << "Syn-Ack: " << syn_ack;
-		}
+		if(_b[ip+9] != 6) return;
+		std::size_t tcp = ip + ip_len;
+
+		if(body_len < (tcp - offset) + 20) return;
+		uint8_t tcp_flags = _b[tcp + 13];
+		
+
+		// TCP Flags
+		bool syn = tcp_flags & 0x02;
+		bool ack = tcp_flags & 0x10;
+		bool syn_ack = tcp_flags & 0x12;
 
 	}
 }
@@ -60,10 +73,8 @@ void File::parse_pcapng(const std::vector<uint8_t>& _b) {
 	while(j + 8 <= _b.size()) {
 
 		uint32_t len = to_u32l(_b[j+4],_b[j+5],_b[j+6],_b[j+7]);	
+		this->read_block(_b,j);
 		j += len;
-		if(j < _b.size()){
-			this->read_block(_b,j);
-		}
 	}
 }
 

@@ -19,6 +19,10 @@ struct Data{
 	uint32_t height;
 	uint32_t width;
 	uint16_t color;
+	// TODO Turn into bitmap or vector<bool> to hold all flags
+	bool syn{};
+	bool ack{};
+	bool syn_ack{};
 };
 
 class File{
