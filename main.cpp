@@ -21,7 +21,7 @@ std::vector<uint8_t> read_file(const std::string& _fname) {
 int main() {
 
 	File& f = File::getFile();
-	auto buf = read_file("img.png");
+	auto buf = read_file("capture_1.pcapng");
 	f.mbyte_validation(buf);
 	f.do_parsing(buf);
 

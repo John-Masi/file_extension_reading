@@ -10,6 +10,15 @@
 // use same byte logic 
 // create parsing funcs for each file type in the singleton class 
 
+inline void hexdump(const std::vector<uint8_t>& _b) {
+	for(std::size_t i = 0; i < _b.size(); i++) {
+		unsigned char byte = _b[i];
+		uint8_t high = byte >> 4;
+		uint8_t low = byte & 0x0F;
+		printf("%X %X \n",high,low);
+	}
+};
+
 inline bool _validPNG(const std::vector<uint8_t>& buffer){
 	if(buffer.size() < 8) { return false; }
 	const uint8_t p[8] = {0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A};
@@ -28,4 +37,9 @@ inline bool _validIHDR(const std::vector<uint8_t>&buffer){
 
 inline uint32_t to_u32(uint8_t b0,uint8_t b1,uint8_t b2,uint8_t b3) {
 	return (uint32_t(b0) << 24) | (uint32_t(b1) << 16) | (uint32_t(b2) << 8) | b3;
+}
+
+// Conversion specifically for little endian files (pcapng)
+inline uint32_t to_u32l(uint8_t b0,uint8_t b1,uint8_t b2,uint8_t b3){
+	return b0 | (uint32_t(b1) << 8) | (uint32_t(b2) << 16) | (uint32_t(b3) << 24);
 }

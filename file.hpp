@@ -35,10 +35,11 @@ class File{
 			return file;
 		}
 		
-		void do_parsing(std::vector<uint8_t>& _b);
-		void parse_png(std::vector<uint8_t>& _b);
-		void parse_pcapng(std::vector<uint8_t>& _b);
-		void mbyte_validation(const std::vector<uint8_t>& _b);
+		void read_block(const std::vector<uint8_t>& _buff,std::size_t block_size);
+		void do_parsing(std::vector<uint8_t>& _buff);
+		void parse_png(const std::vector<uint8_t>& _buff);
+		void parse_pcapng(const std::vector<uint8_t>& _buff);
+		void mbyte_validation(const std::vector<uint8_t>& _buff);
 
 		const Data& data() const { return _d; }
 
