@@ -4,11 +4,30 @@
 
 #pragma once
 
+inline std::vector<uint8_t> read_file(const std::string& _fname){
+	std::size_t size;
+	std::vector<uint8_t> buffer;
 
-// IMPLEMENT SINGLE TON
-// use one struct for data 
-// use same byte logic 
-// create parsing funcs for each file type in the singleton class 
+	std::ifstream file(_fname,std::ios::binary);
+
+	if(!file.is_open()){
+		std::cout << "File will not open" << "\n";
+	}
+	else{
+		file.seekg(0,std::ios::end);
+		size = file.tellg();
+		file.seekg(0,std::ios::beg);
+		buffer.resize(size);
+		file.read(reinterpret_cast<char*>(buffer.data()),size);
+	
+		std::streamsize r = file.gcount();
+		buffer.resize(r);
+
+	}
+
+	return buffer;
+
+}
 
 inline void hexdump(const std::vector<uint8_t>& _b) {
 	for(std::size_t i = 0; i < _b.size(); i++) {

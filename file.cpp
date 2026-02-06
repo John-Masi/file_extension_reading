@@ -35,8 +35,9 @@ void File::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
 	uint32_t len = to_u32l(_b[b_size + 4],_b[b_size + 5],_b[b_size + 6],_b[b_size + 7]);
 	uint32_t b_type = to_u32l(_b[b_size],_b[b_size + 1],_b[b_size + 2],_b[b_size + 3]);
 
+	uint32_t epb = 0x00000006;
 	// EPB packet from pcapng  
-	if(b_type == 0x00000006) {
+	if(b_type == epb) {
 	
 		// EPB start 
 		std::size_t offset = b_size + 28;
@@ -83,5 +84,5 @@ void File::mbyte_validation(const std::vector<uint8_t>& _b) {
 	//if(_validPNG(_b)){ this->_e = FileExten::png; }
 	//else { this->_e = FileExten::pcapng; }
 	//
-	this->_e = FileExten::pcapng;
+	this->_e = FileExten::png;
 }
