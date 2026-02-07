@@ -30,7 +30,7 @@ inline std::vector<uint8_t> read_file(const std::string& _fname){
 }
 
 inline void hexdump(const std::vector<uint8_t>& _b) {
-	for(std::size_t i = 0; i < _b.size(); i++) {
+	for(std::size_t i = 0; i < 8; i++) {
 		unsigned char byte = _b[i];
 		uint8_t high = byte >> 4;
 		uint8_t low = byte & 0x0F;
@@ -38,9 +38,16 @@ inline void hexdump(const std::vector<uint8_t>& _b) {
 	}
 };
 
+inline bool _validPCAPNG(const std::vector<uint8_t>& buffer){
+	if(buffer.size() < 8) { return false; }
+	std::vector<uint8_t> p1 = {0x0A,0x0D,0x0D,0x0A};
+
+	return std::equal(p1.begin(),p1.end(),buffer.begin(),buffer.begin() + 4);
+
+}
+
 inline bool _validPNG(const std::vector<uint8_t>& buffer){
 	if(buffer.size() < 8) { return false; }
-	const uint8_t p[8] = {0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A};
 	std::vector<uint8_t> p1 = {0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A};
 	return std::equal(p1.begin(),p1.end(),buffer.begin(),buffer.begin() + 8);
 }
@@ -49,7 +56,7 @@ inline bool _validIHDR(const std::vector<uint8_t>&buffer){
 
 
 	const uint8_t h[8] = {0x49,0x48,0x44,0x52};
-	
+		
 
 	return true;
 }

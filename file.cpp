@@ -72,17 +72,18 @@ void File::parse_pcapng(const std::vector<uint8_t>& _b) {
 	std::size_t chunk = 188;
 	
 	while(j + 8 <= _b.size()) {
-
+		
 		uint32_t len = to_u32l(_b[j+4],_b[j+5],_b[j+6],_b[j+7]);	
 		this->read_block(_b,j);
-		j += len;
+		j += len;	
+		
+
 	}
 }
 
 
 void File::mbyte_validation(const std::vector<uint8_t>& _b) {
-	//if(_validPNG(_b)){ this->_e = FileExten::png; }
-	//else { this->_e = FileExten::pcapng; }
-	//
-	this->_e = FileExten::png;
+	if(_validPNG(_b)){ this->_e = FileExten::png; }
+	else if(_validPCAPNG){ this->_e = FileExten::pcapng; }
+	std::cout << this->_e << "\n";
 }
