@@ -1,24 +1,30 @@
 #include "file.hpp"
 #include "general_funcs.h"
 #include <iostream>
+#include <memory>
+#include <variant>
 
-void File::do_parsing(std::vector<uint8_t>& _b) {
-	if(this->_e == FileExten::png ) {
-		this->parse_png(_b);
-	}
-	else if(this->_e == FileExten::pcapng) {
-		this->parse_pcapng(_b);
-	}
+std::unique_ptr<File> File::mbyte_validation(std::vector<uint8_t>&& _b) {
+	if(_validPNG(_b)) { return std::make_unique<PNG>(); }
+	else if(_validPCAPNG(_b)) { return std::make_unique<PNG>(); }
+
+								
+
+	return std::make_unique<PNG>(std::move(_b));
 }
 
-void File::parse_png(const std::vector<uint8_t>& _b) {
+void File::do_parsing(std::vector<uint8_t>& _b) {
+
+}
+
+void PNG::parse(const std::vector<uint8_t>& _b) {
 	std::size_t j{};
 
 	while(j + 8 < _b.size()) {
 		uint32_t len = to_u32(_b[j+1],_b[j+2],_b[j+3],_b[j+4]);
 
 		if(_validIHDR(_b)) {
-			this->_d.height = to_u32(_b[j+16],_b[j+17],_b[j+18],_b[j+19]);
+			std::cout << "Hey!";	
 		}
 
 		
@@ -31,7 +37,7 @@ void File::parse_png(const std::vector<uint8_t>& _b) {
 
 }
 
-void File::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
+void PCAPNG::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
 	uint32_t len = to_u32l(_b[b_size + 4],_b[b_size + 5],_b[b_size + 6],_b[b_size + 7]);
 	uint32_t b_type = to_u32l(_b[b_size],_b[b_size + 1],_b[b_size + 2],_b[b_size + 3]);
 
@@ -66,8 +72,8 @@ void File::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
 
 	}
 }
-void File::parse_pcapng(const std::vector<uint8_t>& _b) {
 
+void PCAPNG::parse(const std::vector<uint8_t>& _b) {
 	std::size_t j{};
 	std::size_t chunk = 188;
 	
@@ -79,11 +85,4 @@ void File::parse_pcapng(const std::vector<uint8_t>& _b) {
 		
 
 	}
-}
-
-
-void File::mbyte_validation(const std::vector<uint8_t>& _b) {
-	if(_validPNG(_b)){ this->_e = FileExten::png; }
-	else if(_validPCAPNG){ this->_e = FileExten::pcapng; }
-	std::cout << this->_e << "\n";
 }

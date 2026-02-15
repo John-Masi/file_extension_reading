@@ -1,0 +1,3 @@
+/home/johm01/file_extension_reading/build/CMakeFiles/main.dir
+/home/johm01/file_extension_reading/build/CMakeFiles/edit_cache.dir
+/home/johm01/file_extension_reading/build/CMakeFiles/rebuild_cache.dir

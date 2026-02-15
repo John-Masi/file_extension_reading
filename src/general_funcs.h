@@ -1,8 +1,16 @@
 #include <cstdint>
 #include <vector>
 #include <algorithm>
+#include <span>
 
 #pragma once
+
+namespace MagicBytes {
+	
+	inline constexpr uint8_t m_pcapng[4] = {0x0A,0x0D,0x0D,0x0A}; 
+	inline constexpr uint8_t m_png[8] = {0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A};
+
+};
 
 inline std::vector<uint8_t> read_file(const std::string& _fname){
 	std::size_t size;
@@ -38,15 +46,15 @@ inline void hexdump(const std::vector<uint8_t>& _b) {
 	}
 };
 
-inline bool _validPCAPNG(const std::vector<uint8_t>& buffer){
+inline constexpr bool _validPCAPNG(const std::vector<uint8_t>& buffer){
 	if(buffer.size() < 8) { return false; }
-	std::vector<uint8_t> p1 = {0x0A,0x0D,0x0D,0x0A};
-
+	// Change to a span
+	std::span<const uint8_t> p1(MagicBytes::m_pcapng);
 	return std::equal(p1.begin(),p1.end(),buffer.begin(),buffer.begin() + 4);
 
 }
 
-inline bool _validPNG(const std::vector<uint8_t>& buffer){
+inline constexpr bool _validPNG(const std::vector<uint8_t>& buffer){
 	if(buffer.size() < 8) { return false; }
 	std::vector<uint8_t> p1 = {0x89,0x50,0x4E,0x47,0x0D,0x0A,0x1A,0x0A};
 	return std::equal(p1.begin(),p1.end(),buffer.begin(),buffer.begin() + 8);
