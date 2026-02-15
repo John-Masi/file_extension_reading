@@ -117,24 +117,24 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named main
+# Target rules for targets named file_extension_reading
 
 # Build rule for target.
-main: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 main
-.PHONY : main
+file_extension_reading: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 file_extension_reading
+.PHONY : file_extension_reading
 
 # fast build rule for target.
-main/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/build
-.PHONY : main/fast
+file_extension_reading/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/build
+.PHONY : file_extension_reading/fast
 
 src/file.o: src/file.cpp.o
 .PHONY : src/file.o
 
 # target to build an object file
 src/file.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/file.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/src/file.cpp.o
 .PHONY : src/file.cpp.o
 
 src/file.i: src/file.cpp.i
@@ -142,7 +142,7 @@ src/file.i: src/file.cpp.i
 
 # target to preprocess a source file
 src/file.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/file.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/src/file.cpp.i
 .PHONY : src/file.cpp.i
 
 src/file.s: src/file.cpp.s
@@ -150,7 +150,7 @@ src/file.s: src/file.cpp.s
 
 # target to generate assembly for a file
 src/file.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/file.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/src/file.cpp.s
 .PHONY : src/file.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -158,7 +158,7 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -166,7 +166,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -174,7 +174,7 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/main.dir/build.make CMakeFiles/main.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/file_extension_reading.dir/build.make CMakeFiles/file_extension_reading.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 # Help Target
@@ -185,7 +185,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... main"
+	@echo "... file_extension_reading"
 	@echo "... src/file.o"
 	@echo "... src/file.i"
 	@echo "... src/file.s"
