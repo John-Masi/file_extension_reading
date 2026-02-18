@@ -29,19 +29,19 @@ struct TCP_Packet {
 	bool syn_ack{};
 };
 
+// TODO REFACTOR parse() to take no argurments and only use the vector from the data member 
+
 class File{
 	private:
 		enum FileExten _e;
 	public:
 		std::vector<uint8_t> b;
 		File() {};
-		File(std::vector<uint8_t>&& _b) {
-			b = std::move(_b);
+		File(std::vector<uint8_t>&& _b) : b(std::move(_b)) {
 		};
-		~File() = default;
+		virtual ~File() = default;
 		static std::unique_ptr<File> mbyte_validation(std::vector<uint8_t>&& _b);	
 		virtual void parse(const std::vector<uint8_t>& _b) = 0;
-		// Refactor into using a <span>
 		
 		void do_parsing(std::vector<uint8_t>& _buff);
 	
@@ -51,8 +51,7 @@ class PNG : public File {
 	public:
 		std::vector<uint8_t> b;
 		PNG() {};
-		PNG(std::vector<uint8_t>&& _b) {
-			b = std::move(_b);
+		PNG(std::vector<uint8_t>&& _b) : b(std::move(_b)) {
 		};
 		~PNG() = default;
 		virtual void parse(const std::vector<uint8_t>& _b) override;
@@ -80,7 +79,5 @@ class UNKNOWN : public File {
 		virtual void parse(const std::vector<uint8_t>& _b) override; 
 
 };
-
-
 
 #endif 
