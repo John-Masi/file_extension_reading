@@ -214,5 +214,4 @@ CMakeFiles/file_extension_reading.dir/src/main.cpp.o: \
  /usr/include/c++/13/backward/auto_ptr.h \
  /usr/include/c++/13/bits/ranges_uninitialized.h \
  /usr/include/c++/13/pstl/glue_memory_defs.h \
- /home/johm01/file_extension_reading/src/general_funcs.h \
- /usr/include/c++/13/span /usr/include/c++/13/array
+ /home/johm01/file_extension_reading/src/file_r.h

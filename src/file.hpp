@@ -33,7 +33,6 @@ struct TCP_Packet {
 
 class File{
 	private:
-		enum FileExten _e;
 	public:
 		std::vector<uint8_t> b;
 		File() {};

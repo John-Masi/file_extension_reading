@@ -5,11 +5,6 @@
 #include <variant>
 
 std::unique_ptr<File> File::mbyte_validation(std::vector<uint8_t>&& _b) {
-	if(_validPNG(_b)) { return std::make_unique<PNG>(); }
-	else if(_validPCAPNG(_b)) { return std::make_unique<PNG>(); }
-
-								
-
 	return std::make_unique<PNG>(std::move(_b));
 }
 
@@ -24,20 +19,21 @@ void PNG::parse(const std::vector<uint8_t>& _b) {
 		uint32_t len = to_u32(_b[j+1],_b[j+2],_b[j+3],_b[j+4]);
 
 		if(_validIHDR(_b)) {
-			std::cout << "Hey!";	
+			break;
 		}
 
 		
-		if(j + len + 12 > _b.size()){
-			break;
-		}
+		//
+		//if(j + len + 12 > _b.size()){
+		//	break;
+		//}
 		j = j + len + 12;
 
 	}
 
 }
 
-void PCAPNG::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
+inline void PCAPNG::read_block(const std::vector<uint8_t>& _b,std::size_t b_size) {
 	uint32_t len = to_u32l(_b[b_size + 4],_b[b_size + 5],_b[b_size + 6],_b[b_size + 7]);
 	uint32_t b_type = to_u32l(_b[b_size],_b[b_size + 1],_b[b_size + 2],_b[b_size + 3]);
 
@@ -82,7 +78,5 @@ void PCAPNG::parse(const std::vector<uint8_t>& _b) {
 		uint32_t len = to_u32l(_b[j+4],_b[j+5],_b[j+6],_b[j+7]);	
 		this->read_block(_b,j);
 		j += len;	
-		
-
 	}
 }
